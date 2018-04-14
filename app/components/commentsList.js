@@ -4,6 +4,7 @@ import CommentsTitle from './commentsTitle.js';
 import CommentsToggle from './commentsToggle.js';
 import ReactMixin from 'react-mixin';
 import ReactFireMixin from 'reactfire';
+import firebase from 'firebase';   
 
 
 export default class CommentsList extends React.Component {
@@ -12,16 +13,15 @@ export default class CommentsList extends React.Component {
 		super();
 
 		this.state = {
-			showComments: false,
-			comments: [] 
+			showComments: true,
+			comments: []  
 		}
 	}
 
 	
 
 	componentDidMount(){
-		console.log(firebase);      
-		this.bindAsArray(firebase.database().ref().child('comments'), 'comments');
+		this.bindAsArray(firebase.database().ref().child('comments'), 'comments');    
 	}
 
 	_toggleShowComments(){
@@ -39,7 +39,7 @@ export default class CommentsList extends React.Component {
 
                 {
                 	this.state.comments.map((comment, index) => {
-                		return <Comment key={index} author={comment.name} text={comment.text} />
+                		return <Comment key={index} author={comment.name} text={comment.text} id={comment['.key']}/>  
                 	})
                 }
 
